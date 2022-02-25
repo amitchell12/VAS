@@ -5,7 +5,6 @@ function tgiRating_main(vars, scr)
 % Camila Sardeto Deolindo & Francesca Fardo 
 % Last edit: 07/02/2022
 
-
 %% Load the parameters
 tgiRating_loadParams;
 

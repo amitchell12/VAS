@@ -22,42 +22,42 @@ vars.task.NTrialsTotal       = 6; %50 % Total number of trials
 vars.task.NTrialsChangeP     = 2; %5  % Regularity that participant changes thermode position. If you don't want this, please make it equal to vars.task.NTrialsTotal 
 
 %Times
-vars.task.jitter             = randInRange(1,3,[1,vars.task.NTrialsTotal]); % time between the beginning of the trial and the beginning of the stimulation
+%vars.task.jitter             = randInRange(1,3,[1,vars.task.NTrialsTotal]); % time between the beginning of the trial and the beginning of the stimulation
 vars.task.feedbackBPtime     = 0.5; % this determines how long the feedbacks "button press detected" is shown on the screen
-vars.task.ITI                = 6 - (vars.task.jitter + vars.task.feedbackBPtime);
+%vars.task.ITI                = 6 - (vars.task.jitter + vars.task.feedbackBPtime);
 vars.task.movingT            = 3; %Time to move the thermode to adjacent position
 vars.task.RespT              = 10;    % Time to respond
 
 %% Temperatures: Loading Outcomes from previous Experiments
-vars.task.Ttol               = 0.5;  %Tolerance to indicate that stimulator did not reach temperature.
+%vars.task.Ttol               = 0.5;  %Tolerance to indicate that stimulator did not reach temperature.
 
-try
+% try
 %     out1 = load(strcat(vars.dir.OutputFolder, 'Part1_', vars.ID.UniqueFileName, '.mat'));
-out1=load('C:\Users\mgane\Documents\Camila\FAST\C300_CI.mat');%% FOR TEST ONLY DELETE! Use line above
+% out1=load('C:\Users\mgane\Documents\Camila\FAST\C300_CI.mat');%% FOR TEST ONLY DELETE! Use line above
 %     out3 = load(strcat(vars.dir.OutputFolder, 'Part3_', vars.ID.UniqueFileName, '.mat'));
-out3 = load(strcat(vars.dir.OutputFolder, 'Part2_', vars.ID.UniqueFileName, '.mat'));%% FOR TEST ONLY DELETE! Use line above
-
-vars.fast.myfast = out1.myfast;%% FOR TEST ONLY DELETE!Use line below
+% out3 = load(strcat(vars.dir.OutputFolder, 'Part2_', vars.ID.UniqueFileName, '.mat'));%% FOR TEST ONLY DELETE! Use line above
+% 
+% vars.fast.myfast = out1.myfast;%% FOR TEST ONLY DELETE!Use line below
 %     vars.fast.myfast = out1.Results.myfast{end};
-    vars.fast.pArray = [0.25 0.5 0.75];
-    
-    %Extract values for the selected probabilities.
-    vars.fast.allTcold = sort(vars.fast.myfast.data(:,1));
-    vars.fast.TwarmInpArray = arrayfun(@(x) squeeze(fastCalcYs(vars.fast.myfast, vars.fast.allTcold,x)),vars.fast.pArray, 'UniformOutput',false);
-    
-    %Extract Twarm for the correspondent Tcold
-    vars.task.Tbaseline = out3.vars.task.Tbaseline;
-    vars.task.TcoldTGI = out3.vars.task.TcoldTGI;
-    vars.task.TwarmTGI = cellfun(@(x) x(find(vars.fast.allTcold==vars.task.TcoldTGI,1)),vars.fast.TwarmInpArray);
-
-    %Generate a sequence of stimuli
-    vars.task.TwarmSequence = repmat(vars.task.TwarmTGI,1,ceil(vars.task.NTrialsTotal/3));
-    vars.task.TwarmSequence = vars.task.TwarmSequence (randperm(vars.task.NTrialsTotal));
-
-    clear ('out1','out3')
-catch
-    error('Results from previous parts of the experiment are missing or with very few trials.')
-end
+%     vars.fast.pArray = [0.25 0.5 0.75];
+%     
+%     Extract values for the selected probabilities.
+%     vars.fast.allTcold = sort(vars.fast.myfast.data(:,1));
+%     vars.fast.TwarmInpArray = arrayfun(@(x) squeeze(fastCalcYs(vars.fast.myfast, vars.fast.allTcold,x)),vars.fast.pArray, 'UniformOutput',false);
+%     
+%     Extract Twarm for the correspondent Tcold
+%     vars.task.Tbaseline = out3.vars.task.Tbaseline;
+%     vars.task.TcoldTGI = out3.vars.task.TcoldTGI;
+%     vars.task.TwarmTGI = cellfun(@(x) x(find(vars.fast.allTcold==vars.task.TcoldTGI,1)),vars.fast.TwarmInpArray);
+% 
+%     Generate a sequence of stimuli
+%     vars.task.TwarmSequence = repmat(vars.task.TwarmTGI,1,ceil(vars.task.NTrialsTotal/3));
+%     vars.task.TwarmSequence = vars.task.TwarmSequence (randperm(vars.task.NTrialsTotal));
+% 
+%     clear ('out1','out3')
+% catch
+%     error('Results from previous parts of the experiment are missing or with very few trials.')
+% end
 
 
 %% Instructions
