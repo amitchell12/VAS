@@ -90,7 +90,7 @@
 %                    multiple line questions. 
 %% Parse input arguments
 % Default values
-TextColour  = [255 255 255];%[0 0 0];
+TextColour  = [0 0 0]; %[255 255 255];
 center        = round([rect(3) rect(4)]/2);
 lineLength    = 10;
 width         = 3;
@@ -297,7 +297,7 @@ while answer == 0
     end
 
     
-    % Display position
+   % Display position
     if displayPos
         DrawFormattedText(screenPointer, num2str(round(position)), 'center', rect(4)*(scalaPosition - 0.05)); 
     end
@@ -325,7 +325,7 @@ while answer == 0
 end
 %% Wating that all keys are released and delete texture
 KbReleaseWait; %Keyboard
-KbReleaseWait(1); %Mouse
+%KbReleaseWait(1); %Mouse
 if drawImage == 1
     Screen('Close', stimuli);
 end

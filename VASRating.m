@@ -7,15 +7,45 @@
 %% Load parameters
 tgiRating_loadParams;
 
-%% Keyboard & keys configuration
+%% Keyboard & variable configuration
 [keys] = keyConfig();
 
 % Reseed the random-number generator
 SetupRand;
 
+vars.control.devFlag  = 1; % Development flag 1. Set to 1 when developing the task, will optimize stim size for laptop, not hide cursor
+
 %% Psychtoolbox settings
 PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1);
+
+%% Open a PTB window
+scr.ViewDist = 56; 
+[scr] = displayConfig(scr);
+AssertOpenGL;
+if vars.control.devFlag
+    [scr.win, scr.winRect] = PsychImaging('OpenWindow', scr.screenID, scr.BackgroundGray, [0 0 1000 1000]); %,[0 0 1920 1080] mr screen dim
+else
+    [scr.win, scr.winRect] = PsychImaging('OpenWindow', scr.screenID, scr.BackgroundGray); %,[0 0 1920 1080] mr screen dim
+end
+% PsychColorCorrection('SetEncodingGamma', scr.win, 1/scr.GammaGuess);
+
+% Set text size, dependent on screen resolution
+if any(logical(scr.winRect(:)>3000))       % 4K resolution
+    scr.TextSize = 65;
+else
+    scr.TextSize = 28;
+end
+Screen('TextSize', scr.win, scr.TextSize);
+
+% Set priority for script execution to realtime priority:
+scr.priorityLevel = MaxPriority(scr.win);
+Priority(scr.priorityLevel);
+
+% Determine stim size in pixels
+scr.dist        = scr.ViewDist;
+scr.width       = scr.MonitorWidth;
+scr.resolution  = scr.winRect(3:4);                    % number of pixels of display in horizontal direction
 
 %% Prepare to start
 %  try
@@ -48,6 +78,5 @@ for question_type_idx=1:length(vars.instructions.whichQuestion)
     [Results.vasResponse(thisTrial,question_type_idx), ...
         Results.vasReactionTime(thisTrial,question_type_idx)]= getVasRatings(keys, scr, vars,question_type_idx);
 end
-
 KbStrokeWait;
 sca;
