@@ -8,24 +8,19 @@
 tgiRating_loadParams;
 
 %% Keyboard & keys configuration
-%[keys] = keyConfig();
+[keys] = keyConfig();
 
 % Reseed the random-number generator
-%SetupRand;
+SetupRand;
 
 %% Psychtoolbox settings
 PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1);
 
-scr = Screen('Screens');
-scrNr = max(scr);
-white = WhiteIndex(scrNr);
-black = BlackIndex(scrNr);
-
 %% Prepare to start
 %  try
     % Check if window is already open (if not, open screen window) 
-     [win, winRect] = PsychImaging('OpenWindow', scrNr, black);
+    [scr]=openScreen(scr);
     
     % Dummy calls to prevent delays
     vars.control.RunSuccessfull = 0;
