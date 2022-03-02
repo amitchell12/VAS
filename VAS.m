@@ -2,7 +2,7 @@
 %% A.G. Mitchell - 25.02.2022
 % Developed from code by Camila Deolindo & Francesca Fardo
 
-% Last edit - 25.02.2022
+% Last edit - 02.03.2022
 
 %% Load parameters
 VAS_loadParams;
@@ -20,8 +20,8 @@ PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1);
 
 %% Open a PTB window
-scr.ViewDist = 56; 
-%[scr] = displayConfig(scr);
+scr.ViewDist = vars.ViewDist; % viewing distance
+[scr] = displayConfig(scr);
 AssertOpenGL;
 if vars.control.devFlag
     [scr.win, scr.winRect] = PsychImaging('OpenWindow', scr.screenID, scr.BackgroundGray, [0 0 1000 1000]); %,[0 0 1920 1080] mr screen dim
@@ -78,5 +78,5 @@ for question_type_idx=1:length(vars.instructions.whichQuestion)
     [Results.vasResponse(thisTrial,question_type_idx), ...
         Results.vasReactionTime(thisTrial,question_type_idx)]= getVasRatings(keys, scr, vars,question_type_idx);
 end
-KbStrokeWait;
+
 sca;

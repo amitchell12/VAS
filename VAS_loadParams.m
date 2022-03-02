@@ -13,6 +13,9 @@ vars.control.inputDevice    = 1;   % Response method for button presses 1 - mous
 
 %% Task parameters
 
+%Viewing distance
+vars.ViewDist = 56;
+
 %Trials
 vars.task.NTrialsTotal       = 6; %50 % Total number of trials
 vars.task.NTrialsChangeP     = 2; %5  % Regularity that participant changes thermode position. If you don't want this, please make it equal to vars.task.NTrialsTotal 
