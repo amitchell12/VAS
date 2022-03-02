@@ -17,7 +17,7 @@ vars.control.devFlag  = 1; % Development flag 1. Set to 1 when developing the ta
 
 %% Psychtoolbox settings
 PsychDefaultSetup(2);
-Screen('Preference', 'SkipSyncTests', 1);
+Screen('Preference', 'SkipSyncTests', 2);
 
 %% Open a PTB window
 scr.ViewDist = vars.ViewDist; % viewing distance
@@ -34,7 +34,7 @@ end
 if any(logical(scr.winRect(:)>3000))       % 4K resolution
     scr.TextSize = 65;
 else
-    scr.TextSize = 28;
+    scr.TextSize = vars.instructions.textSize;
 end
 Screen('TextSize', scr.win, scr.TextSize);
 
@@ -59,24 +59,18 @@ scr.resolution  = scr.winRect(3:4);                    % number of pixels of dis
     vars.control.thisTrial = 1;
     vars.control.abortFlag = 0;
     [~, ~, keys.KeyCode] = KbCheck;
-    
-%     vars.ValidTrial = zeros(1,2);
-%     vars.RunSuccessfull = 0;
-%     vars.Aborted = 0;
-%     vars.Error = 0;
-%     WaitSecs(0.1);
-%     GetSecs;
-%     vars.Resp = 888;
-%     vars.ConfResp = 888;
-%     vars.abortFlag = 0;
-%     WaitSecs(0.500);
-%     [~, ~, keys.KeyCode] = KbCheck;
+
+%% Open start screen
+DrawFormattedText(scr.win, vars.instructions.StartVas, 'center', 'center', scr.TextColour);
+[~, ~] = Screen('Flip', scr.win);
+KbStrokeWait;
 
 %% Run VAS
-thisTrial = 1;
-for question_type_idx=1:length(vars.instructions.whichQuestion)
-    [Results.vasResponse(thisTrial,question_type_idx), ...
-        Results.vasReactionTime(thisTrial,question_type_idx)]= getVasRatings(keys, scr, vars,question_type_idx);
+for trial_idx=1:vars.task.NTrialsTotal
+    for question_type_idx=1:length(vars.instructions.whichQuestion)
+        [Results.vasResponse(thisTrial,question_type_idx), ...
+            Results.vasReactionTime(thisTrial,question_type_idx)]= getVasRatings(keys, scr, vars, question_type_idx);
+    end
 end
 
 sca;
