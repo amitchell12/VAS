@@ -20,12 +20,11 @@ scr.ViewDist = vars.ViewDist; % viewing distance
 
 %% Open a PTB window
 AssertOpenGL;
-if vars.control.devFlag
+if vars.c ontrol.devFlag
     [scr.win, scr.winRect] = PsychImaging('OpenWindow', scr.screenID, scr.BackgroundGray, [0 0 1000 1000]); %,[0 0 1920 1080] mr screen dim
 else
     [scr.win, scr.winRect] = PsychImaging('OpenWindow', scr.screenID, scr.BackgroundGray); %,[0 0 1920 1080] mr screen dim
-end
-% PsychColorCorrection('SetEncodingGamma', scr.win, 1/scr.GammaGuess);
+end 
 
 % Set text size, dependent on screen resolution
 if any(logical(scr.winRect(:)>3000))       % 4K resolution

@@ -25,6 +25,8 @@ vars.task.feedbackBPtime     = 0.5; % this determines how long the feedbacks "bu
 %vars.task.ITI                = 6 - (vars.task.jitter + vars.task.feedbackBPtime);
 vars.task.movingT            = 3; %Time to move the thermode to adjacent position
 vars.task.RespT              = 10;    % Time to respond
+vars.task.device = 'keyboard'; 
+% vars.task.device = 'mouse'; %change between either keyboard or mouse, depending on preference
 
 %% Instructions
 vars.instructions.textSize = 32;
