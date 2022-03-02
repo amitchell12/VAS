@@ -7,9 +7,6 @@
 %% Load parameters
 VAS_loadParams;
 
-%% Keyboard & variable configuration
-[keys] = keyConfig();
-
 % Reseed the random-number generator
 SetupRand;
 
@@ -18,10 +15,10 @@ vars.control.devFlag  = 1; % Development flag 1. Set to 1 when developing the ta
 %% Psychtoolbox settings
 PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 2);
+scr.ViewDist = vars.ViewDist; % viewing distance
+[scr, keys  ] = ptbConfig(scr);
 
 %% Open a PTB window
-scr.ViewDist = vars.ViewDist; % viewing distance
-[scr] = displayConfig(scr);
 AssertOpenGL;
 if vars.control.devFlag
     [scr.win, scr.winRect] = PsychImaging('OpenWindow', scr.screenID, scr.BackgroundGray, [0 0 1000 1000]); %,[0 0 1920 1080] mr screen dim
@@ -60,17 +57,25 @@ scr.resolution  = scr.winRect(3:4);                    % number of pixels of dis
     vars.control.abortFlag = 0;
     [~, ~, keys.KeyCode] = KbCheck;
 
-%% Open start screen
-DrawFormattedText(scr.win, vars.instructions.StartVas, 'center', 'center', scr.TextColour);
-[~, ~] = Screen('Flip', scr.win);
-KbStrokeWait;
-
-%% Run VAS
 for trial_idx=1:vars.task.NTrialsTotal
-    for question_type_idx=1:length(vars.instructions.whichQuestion)
-        [Results.vasResponse(thisTrial,question_type_idx), ...
-            Results.vasReactionTime(thisTrial,question_type_idx)]= getVasRatings(keys, scr, vars, question_type_idx);
-    end
+    %% Open start screen
+    % to control when each trial starts - can remove this if VAS questions
+    % need to be continuous  
+    DrawFormattedText(scr.win, vars.instructions.StartVas, 'center', 'center', scr.TextColour);
+    [~, ~] = Screen('Flip', scr.win);
+    KbStrokeWait;
+
+    %% Run VAS
+    % Will loop through the number of VAS questions
+    % for each trial (both params are set in VAS_load.params.m)
+    % Currently set to 4 VAS questions, for 2 trials
+    randQuestion = vars.instructions.QuestionCode (randperm(length(vars.instructions.whichQuestion)));
+    for rand_idx=1:length(randQuestion)
+        question_type_idx = randQuestion(rand_idx);
+        [Results.vasResponse(trial_idx,rand_idx), ...
+            Results.vasReactionTime(trial_idx,rand_idx)]= getVasRatings(keys, scr, vars, question_type_idx);
+        Results.vasQuestionType(trial_idx, rand_idx ) = vars.instructions.Question(question_type_idx); 
+    end 
 end
 
 sca;
