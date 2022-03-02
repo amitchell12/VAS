@@ -1,4 +1,4 @@
- function [position, ConfTimeStamp, RT, answer] = slideScale(screenPointer, question, rect, anchors, varargin)
+function [position, ConfTimeStamp, RT, answer] = slideScale(screenPointer, question, rect, anchors, varargin)
 %% SLIDESCALE This funtion draws a slide scale on a PSYCHTOOLOX 3 screen and returns the
 % position of the slider spaced between -100 and 100 as well as the rection time and if an answer was given.
 %
